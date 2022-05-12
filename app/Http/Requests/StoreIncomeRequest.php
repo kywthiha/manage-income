@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests;
 
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreIncomeConfigurationRequest extends FormRequest
+class StoreIncomeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +25,17 @@ class StoreIncomeConfigurationRequest extends FormRequest
     public function rules()
     {
         return [
-            'save_money_rate' => 'required|numeric|max:99',
-            'tax_money_rate' => 'required|numeric|max:99',
-            'general_expenses_rate' => 'required|numeric|max:99',
-            'extra_money_rate' => 'required|numeric|max:99',
+            'income' => 'required|numeric',
         ];
+    }
+
+
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            // if (!Carbon::now()->isSameDay(Carbon::now()->endOfMonth())) {
+            //     $validator->errors()->add('date', 'This date must be  last date of the month');
+            // }
+        });
     }
 }

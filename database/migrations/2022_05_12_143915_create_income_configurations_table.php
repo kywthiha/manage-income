@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('income_configurations', function (Blueprint $table) {
             $table->id();
-            $table->float('save')->default(0);
-            $table->float('tax')->default(0);
-            $table->float('general_expenses')->default(0);
-            $table->float('extra')->default(0);
+            $table->float('save_money_rate')->default(0);
+            $table->float('tax_money_rate')->default(0);
+            $table->float('general_expenses_rate')->default(0);
+            $table->float('extra_money_rate')->default(0);
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict');
             $table->softDeletes();

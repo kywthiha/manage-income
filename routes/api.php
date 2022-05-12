@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\IncomeConfigurationController;
+use App\Http\Controllers\IncomeController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -37,4 +38,7 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::delete('/', [IncomeConfigurationController::class, 'destroy'])->name('destroy');
     });
 
+    Route::group(['prefix' => 'income', 'as' => 'income.'], function () {
+        Route::post('/', [IncomeController::class, 'store'])->name('store');
+    });
 });

@@ -2,11 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreIncomeRequest;
+use App\Interfaces\IncomeRepositoryInterface;
 use App\Models\Income;
+use App\Repositories\IncomeRepository;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class IncomeController extends Controller
 {
+
+    private IncomeRepository $incomeRepository;
+
+    public function __construct(IncomeRepositoryInterface $incomeRepository)
+    {
+        $this->incomeRepository = $incomeRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -17,15 +29,6 @@ class IncomeController extends Controller
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -33,53 +36,14 @@ class IncomeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreIncomeRequest $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Income  $income
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Income $income)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Income  $income
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Income $income)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Income  $income
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Income $income)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Income  $income
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Income $income)
-    {
-        //
+        $income = $this->incomeRepository->createIncome(auth()->user(), $request->validated());
+        return response()
+            ->json([
+                "errorCode" => 0,
+                "message" => "Success",
+                'data' =>  $income,
+            ], Response::HTTP_CREATED);
     }
 }

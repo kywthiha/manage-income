@@ -7,6 +7,7 @@ use App\Models\User;
 
 interface IncomeRepositoryInterface
 {
-    public function getIncome(User $user): Income;
-    public function createIncome(array $data): Income;
+    public function getIncomes(User $user, ?string $year = null): array;
+    public function getCurrentTotalExtraMoney(User $user): float;
+    public function createIncome(User $user, array $data): Income;
 }

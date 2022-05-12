@@ -11,10 +11,10 @@ class IncomeConfiguration extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'save',
-        'tax',
-        'general_expenses',
-        'extra',
-        'user_id'
+        'user_id',
+        'save_money_rate',
+        'tax_money_rate',
+        'general_expenses_rate',
+        'extra_money_rate',
     ];
 }
