@@ -2,29 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreIncomeConfigurationRequest;
+use App\Interfaces\IncomeConfigurationRepositoryInterface;
 use App\Models\IncomeConfiguration;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class IncomeConfigurationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    private IncomeConfigurationRepositoryInterface $incomeConfigurationRepository;
+
+    public function __construct(IncomeConfigurationRepositoryInterface $incomeConfigurationRepository)
     {
-        //
+        $this->incomeConfigurationRepository = $incomeConfigurationRepository;
     }
 
     /**
@@ -33,9 +24,24 @@ class IncomeConfigurationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreIncomeConfigurationRequest $request)
     {
-        //
+        try {
+            $incomeConfiguration = $this->incomeConfigurationRepository->createIncomeConfiguration(auth()->user(), $request->validated());
+
+            return response()
+                ->json([
+                    "errorCode" => 0,
+                    "message" => "Success",
+                    'data' =>  $incomeConfiguration,
+                ], Response::HTTP_CREATED);
+        } catch (\Exception $e) {
+            return response()
+                ->json([
+                    "errorCode" => 1,
+                    "message" => $e->getMessage(),
+                ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**
@@ -44,32 +50,15 @@ class IncomeConfigurationController extends Controller
      * @param  \App\Models\IncomeConfiguration  $incomeConfiguration
      * @return \Illuminate\Http\Response
      */
-    public function show(IncomeConfiguration $incomeConfiguration)
+    public function show(Request $request)
     {
-        //
-    }
+        $incomeConfiguration = $this->incomeConfigurationRepository->getIncomeConfiguration(auth()->user());
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\IncomeConfiguration  $incomeConfiguration
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(IncomeConfiguration $incomeConfiguration)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\IncomeConfiguration  $incomeConfiguration
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, IncomeConfiguration $incomeConfiguration)
-    {
-        //
+        return response()
+            ->json([
+                "message" => "Success",
+                'data' =>  $incomeConfiguration,
+            ], Response::HTTP_OK);
     }
 
     /**
@@ -78,8 +67,12 @@ class IncomeConfigurationController extends Controller
      * @param  \App\Models\IncomeConfiguration  $incomeConfiguration
      * @return \Illuminate\Http\Response
      */
-    public function destroy(IncomeConfiguration $incomeConfiguration)
+    public function destroy(Request $request)
     {
-        //
+        $this->incomeConfigurationRepository->deleteIncomeConfiguration(auth()->user());
+        return response()
+            ->json([
+                "message" => "Success",
+            ], Response::HTTP_OK);
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\IncomeConfigurationController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -29,4 +30,11 @@ Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
 
 
 Route::group(['middleware' => 'auth:api'], function () {
+
+    Route::group(['prefix' => 'income-configuration', 'as' => 'income-configuration.'], function () {
+        Route::get('/', [IncomeConfigurationController::class, 'show'])->name('show');
+        Route::post('/', [IncomeConfigurationController::class, 'store'])->name('store');
+        Route::delete('/', [IncomeConfigurationController::class, 'destroy'])->name('destroy');
+    });
+
 });

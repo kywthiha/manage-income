@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use App\Interfaces\ActivityLogRepositoryInterface;
+use App\Interfaces\IncomeConfigurationRepositoryInterface;
 use App\Interfaces\UserRepositoryInterface;
 use App\Repositories\ActivityLogRepository;
+use App\Repositories\IncomeConfigurationRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Support\ServiceProvider;
 
@@ -20,6 +22,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
 
         $this->app->bind(ActivityLogRepositoryInterface::class, ActivityLogRepository::class);
+
+        $this->app->bind(IncomeConfigurationRepositoryInterface::class, IncomeConfigurationRepository::class);
     }
 
     /**
