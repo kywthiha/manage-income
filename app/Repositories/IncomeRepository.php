@@ -20,13 +20,9 @@ class IncomeRepository implements IncomeRepositoryInterface
         $this->incomeConfigurationRepository = $incomeConfigurationRepository;
     }
 
-    public function getIncomes(User $user, ?string $year = null): array
+    public function getIncomes(User $user, ?string $year = null)
     {
-        $incomes = $user->incomes;
-        if ($year) {
-            $incomes = $incomes->whereYear('created_at', $year);
-        }
-        return $incomes->get()->toArray();
+        return $user->incomes;
     }
 
     public function getCurrentTotalExtraMoney(User $user): float

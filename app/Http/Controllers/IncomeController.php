@@ -26,7 +26,13 @@ class IncomeController extends Controller
      */
     public function index()
     {
-        //
+        $incomes = $this->incomeRepository->getIncomes(auth()->user());
+        return response()
+            ->json([
+                "errorCode" => 0,
+                "message" => "Success",
+                'data' => $incomes,
+            ], Response::HTTP_OK);
     }
 
 

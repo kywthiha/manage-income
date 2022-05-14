@@ -3,6 +3,7 @@
 use App\Http\Controllers\IncomeConfigurationController;
 use App\Http\Controllers\IncomeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WishController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -40,5 +41,12 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::group(['prefix' => 'income', 'as' => 'income.'], function () {
         Route::post('/', [IncomeController::class, 'store'])->name('store');
+        Route::get('/', [IncomeController::class, 'index'])->name('index');
+    });
+
+    Route::group(['prefix' => 'wish', 'as' => 'wish.'], function () {
+        Route::post('/', [WishController::class, 'store'])->name('store');
+        Route::get('/', [WishController::class, 'index'])->name('index');
+        Route::get('/possible-wishs', [WishController::class, 'getPossibleWishs'])->name('possible-wishs');
     });
 });

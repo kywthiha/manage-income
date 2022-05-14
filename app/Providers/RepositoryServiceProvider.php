@@ -6,10 +6,12 @@ use App\Interfaces\ActivityLogRepositoryInterface;
 use App\Interfaces\IncomeConfigurationRepositoryInterface;
 use App\Interfaces\IncomeRepositoryInterface;
 use App\Interfaces\UserRepositoryInterface;
+use App\Interfaces\WishRepositoryInterface;
 use App\Repositories\ActivityLogRepository;
 use App\Repositories\IncomeConfigurationRepository;
 use App\Repositories\IncomeRepository;
 use App\Repositories\UserRepository;
+use App\Repositories\WishRepository;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -28,6 +30,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(IncomeConfigurationRepositoryInterface::class, IncomeConfigurationRepository::class);
 
         $this->app->bind(IncomeRepositoryInterface::class, IncomeRepository::class);
+
+        $this->app->bind(WishRepositoryInterface::class, WishRepository::class);
     }
 
     /**

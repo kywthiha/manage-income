@@ -7,6 +7,7 @@ use App\Models\Wish;
 
 interface WishRepositoryInterface
 {
-    public function getWish(User $user): Wish;
-    public function createWish(array $data): Wish;
+    public function getWishs(User $user);
+    public function createWish(User $user,array $data): Wish;
+    public function getPossibleWishs(User $user);
 }
